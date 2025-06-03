@@ -1,14 +1,39 @@
 # NLP2SQL Toolkit: watsonx™ and IBM® Power® Virtual Server
 With the ready-to-use NLP2SQL Toolkit, businesses can simplify data analysis. Whether it's a sales manager, assessing product performance, or a finance team monitor revenue trend, this AI-powered tool makes data analysis more accessible, efficient, and actionable for all.</br>
-The Toolkit converts simple text-based questions such as What were the top-selling products last quarter? into SQL queries that retrieve the necessary data. The use of this toolkit eliminates reliance on technical teams, speeding up decision-making processes and significantly cutting down on the time that is required to implement these new features to fruition.
+The Toolkit converts simple text-based questions such as What were the top-selling products last quarter?  - into SQL queries that retrieve the necessary data. The use of this toolkit eliminates reliance on technical teams, speeding up decision-making processes and significantly cutting down on the time that is required to implement these new features to fruition.
 ## Reference Architecture
 
-![Screenshot 2025-03-18 at 14 37 51](https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/assets/404635/e068b193-c406-4a24-a47b-46c41a8f5fed)
+<img width="1010" alt="image" src="https://github.com/user-attachments/assets/8b160e1e-17b8-4c04-872a-27a4a93bf35e" />
+
+
+The above reference architecture diagram illustrates the Toolkit architecture for NLP2 SQL, highlighting its modular design and key considerations. 
+
+RedHat OpenShift Container Platform is optional, and Toolkit can be installed directly on RHEL as explained in further sections.
+
+The overall structure is divided into several components: 
+- Databases which have mission critical data on Power VS
+- An Enterprise Application for example a core banking enterprise application
+- API-based NLP2SQL Toolkit and 
+- watsonx AI Services. 
+
+Databases supported include SAP HANA, Oracle and Postgres SQL which interact with the Enterprise Application. 
+
+The Toolkit comprises three main layers: 
+- Gen AI Asst - UI layer
+- API Layer
+- Database Layer. 
+
+These layers facilitate API calls and NLP queries, converting natural language inputs into SQL statements. 
+
+The watsonx.ai services, provided by IBM Cloud SaaS, include foundation models, prompt lab, and watsonx machine learning, which support the Toolkit by deploying pre-packaged LLM models and tuning them as needed. 
+
+Overall, the diagram conveys a modular and scalable architecture designed to integrate watsonx.ai and PowerVS functionalities seamlessly.
+
 
 
 
 ## Installation
-**Step 1:** <br>Login to VM , git clone the toolkit repo (https://github.ibm.com/AIonPower/powervs_watsonx_toolkit.git)</br>
+**Step 1:** <br>Login to VM , git clone the toolkit repo : (https://github.com/IBM/powervs_watsonx_APIbased_nlp2sql_toolkit)</br>
 
 **Step 2:** <br>Ensure Python3.8+ and pip is installed</br></br>
 ``#python -version``<br/>
@@ -22,7 +47,8 @@ If Python or pip is not installed, download Python from python.org and pip typic
 
 ``#pip install -r requirements.txt``
 
-<img width="453" alt="image" src="https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/assets/404635/b569e795-b138-490e-9af5-6a9d1f6ea5fd">
+<img width="426" alt="image" src="https://github.com/user-attachments/assets/2abae655-201a-464b-8c0e-07d3a4dfc5e5" />
+
 
 
 Working with different database systems in Python, specific adapters and extension modules are required to establish connections and run database operations.
@@ -39,7 +65,8 @@ By default, the Toolkit supports all three databases: Oracle, PostgreSQL, and SA
 
 **Step 5:** Go to the folder “watsonx-integration-server” open the configuration files and update the following parameters
 
-![image](https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/assets/404635/14fec286-a6dd-49f4-867e-6493e90cb1df)
+<img width="721" alt="image" src="https://github.com/user-attachments/assets/1947549c-5bdf-49d7-a3b8-ba67956f28ed" />
+
 
 - [apiserver]<br/>
 Port: Provide the port number at which the flask server must run. List of available ports on IBM Power Virtual Server : https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-network-security
@@ -53,24 +80,28 @@ url: Provide the LLM scoring endpoint deployed on watsonx
 api_key:  Create a personal API key here : https://cloud.ibm.com/iam/apikeys, and use it to create temporary access tokens.
 
 
-<img width="500" alt="image" src="https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/assets/404635/d8a79cc8-64a5-4c72-99c1-5449e1482349">
+<img width="728" alt="image" src="https://github.com/user-attachments/assets/a9a55a5c-3251-449b-bdf6-997ab2aea543" />
+
 
 The resp_config.json file defines the expected structured response format from an LLM that interacts with the toolkit. Defining the format allows an LLM to generate structured, machine-readable responses, ensuring easy integration with API layer.<br/>
 
 type: "agent": Indicates that the response is coming from an AI agent.<br/>
 sections: A list that contains different types of response elements.<br/>
 - First section:<br/>
-<img width="500" alt="image" src="https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/assets/404635/6f2c5eb2-4aa5-4f61-9b2a-f402c54f0c0d"></br>
+<img width="731" alt="image" src="https://github.com/user-attachments/assets/a6d29b64-9ef1-4192-99ee-ab8c784ec372" />
+
   - type: "text" → This section contains textual data.</br>
   - data: A string message informing the user about retrieved transactions.</br>
 
 - Second section:<br/>
-<img width="500" alt="image" src="https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/assets/404635/ef870cb2-e890-422e-a534-f0c039ba35b9"></br>
+<img width="725" alt="image" src="https://github.com/user-attachments/assets/25ff6cf5-76d0-49dc-833b-eae3cd9f65ba" />
+
   - type: "table" → This section is meant to hold tabular data.</br>
   - data: [] (Empty array) → In case no transactions were found.
 
 
-<img width="452" alt="image" src="https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/assets/404635/e01fc27c-9a3c-4b7c-a7b0-2d7e1cecf875"></br></br>
+<img width="552" alt="image" src="https://github.com/user-attachments/assets/bae9e4e7-0e60-4b03-8fd7-f9af50c4f252" />
+
 The Json structure here constitutes the body of the request sent to watsonx.ai service . Below are the Key description : - <br/>
 - input: Contains a text prompt formatted in a specific syntax indicating roles and their inputs. Can include Database schema with sample NLP statement and equivalent SQL Query<br/>
 - parameters: This object contains various parameters for the text generation process:</br>
@@ -85,8 +116,14 @@ The Json structure here constitutes the body of the request sent to watsonx.ai s
 **Step 6:** Go to the folder “database-integration-service” open the db configuration files and update accordingly 
 
 
-![image](https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/assets/404635/d1d06583-7cc7-4696-aa04-489d39d01bf1)</br>
-<img width="213" alt="image" src="https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/assets/404635/048c6fab-dab9-4e12-ace0-fef5a5f836c1"></br>
+<img width="562" alt="image" src="https://github.com/user-attachments/assets/5debba0c-a0ba-4bb0-8770-1255ede56f41" />
+
+Below are the values for databases: - 
+- dbtype  = 1 for Oracle DB
+- dbtype  = 2 for postgres
+- dbtype  = 3 for HANA DB
+
+
 where </br>
 - User: username used to authenticate with the database.
 - Password: password associated with the username
@@ -95,7 +132,7 @@ where </br>
 - Dbname: Name of the database and in case of SAP HANA it also serves as the schema name
 
 Open the file "database_integrate.py" and comment the lines based on the databases you are not using (Oracle, PostgreSQL, or SAP HANA):</br>
-![image](https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/assets/404635/3022e67a-89a5-49ca-9333-b3dce9bc3ce6)
+<img width="715" alt="image" src="https://github.com/user-attachments/assets/01d79ecd-b6ef-417f-8236-b79fd843a481" />
 
 
 
@@ -103,8 +140,14 @@ Open the file "database_integrate.py" and comment the lines based on the databas
 
 ` #FLASK_APP=flask_api.py FLASK_RUN_HOST=0.0.0.0 FLASK_RUN_PORT=9476 flask run`
 
+Sample Output:
+
+
+<img width="738" alt="image" src="https://github.com/user-attachments/assets/5aa04d67-ac7c-4441-8c37-a030d463d367" />
+
+
 **Step 8:** To set up Gen AI Assistant follow the instructions in the below readme link
-https://github.ibm.com/AIonPower/powervs_watsonx_toolkit/blob/main/chatbot_ui/README.md
+https://github.com/IBM/powervs_watsonx_APIbased_nlp2sql_toolkit/blob/main/chatbot_ui/README.md
 
 
 
