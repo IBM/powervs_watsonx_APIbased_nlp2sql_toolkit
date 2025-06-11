@@ -3,7 +3,8 @@ With the ready-to-use NLP2SQL Toolkit, businesses can simplify data analysis. Wh
 The Toolkit converts simple text-based questions such as What were the top-selling products last quarter?  - into SQL queries that retrieve the necessary data. The use of this toolkit eliminates reliance on technical teams, speeding up decision-making processes and significantly cutting down on the time that is required to implement these new features to fruition.
 ## Reference Architecture
 
-<img width="1010" alt="image" src="https://github.com/user-attachments/assets/8b160e1e-17b8-4c04-872a-27a4a93bf35e" />
+<img width="957" alt="image" src="https://github.com/user-attachments/assets/bf41ca86-7200-4364-a8bc-733c04f9e30c" />
+
 
 
 The above reference architecture diagram illustrates the Toolkit architecture for NLP2 SQL, highlighting its modular design and key considerations. 
